@@ -118,6 +118,7 @@ s3transfer
 scikit-learn
 scipy
 Send2Trash
+statsmodels
 six
 smmap
 sniffio

@@ -44,45 +44,41 @@ class NLP_Analysis(object):
     @st.cache_data
     def word_counts(df_titles):
         def chunk_generator(df, chunk_size=1000):
-            start = 0
-            while start < len(df):
-                yield df_titles['Cleaned_Title'].iloc[start:start+chunk_size].tolist()  # Convert to list
-                start += chunk_size
+            try: 
+                start = 0
+                while start < len(df):
+                    yield df_titles['Cleaned_Title'].iloc[start:start+chunk_size].tolist()  # Convert to list
+                    start += chunk_size
+            except Exception as e:
+                print(e)
+        try:
+            vectorizer = CountVectorizer()
 
-        # Initialize CountVectorizer without limiting vocabulary size
-        vectorizer = CountVectorizer()
+            fitted = False
 
-        # Flag to indicate if the vectorizer is fitted
-        fitted = False
+            X = None
 
-        # Initialize an empty matrix to hold the combined data
-        X = None
-
-        # Process data in chunks and transform CountVectorizer
-        for chunk in chunk_generator(df_titles):
-            if not fitted:
-                # Fit the vectorizer with the vocabulary from the first chunk
-                vectorizer.fit(chunk)
-                fitted = True
-            
-            X_chunk = vectorizer.transform(chunk)
-            if X is None:
-                X = X_chunk
-            else:
-                # Get the features in the current chunk
-                features = vectorizer.get_feature_names_out()
+            for chunk in chunk_generator(df_titles):
+                if not fitted:
+                    vectorizer.fit(chunk)
+                    fitted = True
                 
-                # Update the vocabulary with new features from the current chunk
-                vectorizer.vocabulary_ = {feature: idx for idx, feature in enumerate(features)}
-                
-                # Vertically stack the sparse matrices
-                X = scipy.sparse.vstack([X, X_chunk])
+                X_chunk = vectorizer.transform(chunk)
+                if X is None:
+                    X = X_chunk
+                else:
+                    features = vectorizer.get_feature_names_out()
+                    
+                    vectorizer.vocabulary_ = {feature: idx for idx, feature in enumerate(features)}
+                    
+                    X = scipy.sparse.vstack([X, X_chunk])
 
-        # Convert sparse matrix to DataFrame and calculate word frequencies
-        word_counts = pd.DataFrame(X.toarray(), columns=vectorizer.get_feature_names_out())
-        word_frequencies = word_counts.sum().sort_values(ascending=False)
-        word_frequencies.columns = ["word", "count"]
-        word_frequencies_df = word_frequencies.reset_index()
-        word_frequencies_df.columns = ['Word', 'Frequency']
+            word_counts = pd.DataFrame(X.toarray(), columns=vectorizer.get_feature_names_out())
+            word_frequencies = word_counts.sum().sort_values(ascending=False)
+            word_frequencies.columns = ["word", "count"]
+            word_frequencies_df = word_frequencies.reset_index()
+            word_frequencies_df.columns = ['Word', 'Frequency']
 
-        return word_frequencies_df
+            return word_frequencies_df
+        except Exception as e:
+            print(e)

@@ -3,6 +3,7 @@ import os
 from utils.b2 import B2
 from utils.analysis import Analysis as an
 from utils.nlp_analysis import NLP_Analysis as nlp
+from utils.model import model
 
 from dotenv import load_dotenv
 
@@ -62,6 +63,8 @@ st.sidebar.markdown('''
 - [Upvote Count vs Sentiment](#upvote-count-vs-sentiment)
 - [Flairs vs Counts](#flairs-vs-counts)
 - [Distribution of Upvote Ratios](#distribution-of-upvote-ratios)
+- [Correlation Matrix](#correlation-matrix)
+- [Time Series Analysis](#time-series-analysis)
 - [NLP Modelling and Analysis](#nlp-modelling-and-analysis)
 - [Goals](#goals)
 - [Data Cleaning and Pre-Processing](#data-cleaning-and-pre-processing)
@@ -69,9 +72,7 @@ st.sidebar.markdown('''
 - [Enter your headline to know the sentiment](#enter-your-headline-to-know-the-sentiment)
 ----------------------------------------------------------------------------------------------------------
 # Sections for reference
-- [Input-Output](#input-output)
-- [Issues](#issues)
-- [Next Steps](#next-steps)
+- [About the Model](#about-the-model)
 ''', unsafe_allow_html=True)
 
 def display_toast():
@@ -122,9 +123,25 @@ st.plotly_chart(fig_3)
 
 st.write("From the graph, it appears that the most common upvote ratio is around 0.6. Upvote ratios below 0.5 and upvote ratios above 0.8 are less common.")
 
+st.markdown("<H4>Correlation Matrix</H4>", unsafe_allow_html=True)
+st.markdown("Analyzing the correlation between the columns 'Num_Comments', 'Upvotes', 'Downvotes', 'Upvote_Ratio', 'Top_Comment_Score', to understand how each of these columns are related to one another.")
+
+fig_4 = an.corr_heatmap(df_reddit)
+
+st.plotly_chart(fig_4)
+st.write("From the heatmap, we can see that there is a very strong correlation between Number of Upvotes and Number of Comments which means that unlike other social media sites where bot activity disproportionately increases the likes, there is a high chance that reddit doesn't have much bot involvement or atleast this subreddit and the comments and upvotes are made by legitimate people.")
+
+st.markdown("<H4>Time Series Analysis</H4>", unsafe_allow_html=True)
+st.markdown("I have a date and time column in my data, I want to analyse this and see if I can capture some kind of trend or seasonality.")
+
+fig_5 = an.timeseries_analysis(df_reddit)
+
+st.plotly_chart(fig_5)
+st.write("From the above plot we can see that the Trend line recedes after in 2024, this could be an indicator that the engagement with the subreddit has started to decline. There is also a Seasonality pattern for a period of one year, the reasons are unknown but there is a clear pattern.")
+
 st.markdown("<center><h1>NLP Modelling and Analysis</h1></center>", unsafe_allow_html=True)
 
-st.write("The data we are working with is a list of titles and a sentiment tag, the sentiment tag specifies whether the news headline belongs to a positive, negative or a neutral article.")
+st.write("The data I am working with is a list of titles and a sentiment tag, the sentiment tag specifies whether the news headline belongs to a positive, negative or a neutral article.")
 
 st.dataframe(df_analysis.head(10))
 
@@ -155,28 +172,21 @@ st.plotly_chart(fig_wf)
 
 st.write("From the looks of it, Trump seems to be the most talked about person, he's never out of the news I guess!")
 
+tokenizer, maxlen = model.token_generator(df_analysis_clean)
+model_ltsm = model.load_model_ltsm()
+
 st.markdown("<h4>Enter your headline to know the sentiment </h4>", unsafe_allow_html=True)
 
-text_input = st.text_input('Headline here')
+text_input = st.text_input('Text here')
 
 submit_button = st.button('get sentiment')
 
 if submit_button:
-    st.write(f'Sentiment: {"Negative"}')
+    sentiment = model.predictor(model_ltsm, text_input, maxlen, tokenizer)
+    st.write(f'Sentiment: {sentiment}')
 
-st.markdown("""<h4>Input-Output</h4>""", unsafe_allow_html=True)
-st.markdown("""<ol>
-            <li>I have displayed few plots above to show some interesting patterns.</li>
-            <li>The NLP predictive model will a headline as input and will give out sentiment as output.</li>
-            </ol>""", unsafe_allow_html=True)
-
-st.markdown("""<h4>Issues</h4>""", unsafe_allow_html=True)
-st.markdown("""<ol>
-            <li>The main issue I am facing right now is to increase the accuracy of my model, at beginning I was getting an accuracy of 43%, after doing a bit of pre processing I was able to increase it to 52%, but I am not sure as to how this can further improved.</li>
-            </ol>""", unsafe_allow_html=True)
-
-st.markdown("""<h4>Next Steps</h4>""", unsafe_allow_html=True)
-st.markdown("""<ol>
-            <li>I am still doing my analysis on the data and will surely try to incorporate even more interesting statistics along with the plots.</li>
-            <li>The NLP predictive model is still being worked on and I haven't still incorporated the model into the web application completely.</li>
-            </ol>""", unsafe_allow_html=True)
+st.markdown("""<h4>About the Model</h4>""", unsafe_allow_html=True)
+st.markdown("""I have used a Recurrent Neural Network called Long Term Short Memory(LTSM) Model which is generally used for NLP purposes. 
+            The neural network has 3 layers with the first layer being an embedding layer, second one being the LTSM layer and the third one being the ouput layer. 
+            The output layer uses the softmax activation function instead of sigmoid activation function because of the data being multi classed.
+            This model has an accuracy of 89.5%' and a categorical_crossentropy loss of 0.625.""")
