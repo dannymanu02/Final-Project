@@ -126,6 +126,7 @@ soupsieve
 stack-data
 streamlit
 tenacity
+tensorflow
 terminado
 threadpoolctl
 tinycss2
