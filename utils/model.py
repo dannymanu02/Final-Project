@@ -1,18 +1,17 @@
-import tensorflow as tf
+import numpy as np
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
-gpus = tf.config.experimental.list_physical_devices('GPU')
-if gpus:
-    try:
-        tf.config.experimental.set_virtual_device_configuration(
-            gpus[0],
-            [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=1024)]
-        )
-    except RuntimeError as e:
-        print(e)
+import tensorflow as tf
 
-import numpy as np
+import tensorflow as tf
+
+try:
+    # Attempt to load your model here
+    model = tf.keras.models.load_model('my_model.h5')
+except Exception as e:
+    print(f"Failed to load model: {e}")
+
 
 class model(object):
 
