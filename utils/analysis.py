@@ -8,7 +8,6 @@ import streamlit as st
 
 class Analysis(object):
 
-    @st.cache_data
     def pos_neg_news(df_reddit):
         top_articles = df_reddit[df_reddit['Post_Category'] == 'Top']
 
@@ -35,7 +34,6 @@ class Analysis(object):
 
         return fig
     
-    @st.cache_data
     def flair_cnt(df):
         flair_cnts = df["Flair"].value_counts().reset_index()
         flair_cnts.head()
@@ -46,7 +44,6 @@ class Analysis(object):
 
         return fig
     
-    @st.cache_data
     def upvote_distribution(df):
         fig = px.histogram(x=df["Upvote_Ratio"], nbins=10, histnorm='probability density',
                    title='Distribution of Upvote Ratios', labels={'x': 'Upvote Ratio', 'y': 'Density'})
@@ -54,7 +51,6 @@ class Analysis(object):
 
         return fig
     
-    @st.cache_data
     def word_counts_plot(df):
         fig = px.bar(df.head(10), x='Word', y='Frequency', color='Word',
              labels={'Counts': 'Counts'},
@@ -63,7 +59,6 @@ class Analysis(object):
         
         return fig
     
-    @st.cache_data
     def corr_heatmap(df):
         df['Flair'] = df['Flair'].astype('category').cat.codes
         df['Post_Category'] = df['Post_Category'].astype('category').cat.codes
@@ -82,7 +77,6 @@ class Analysis(object):
 
         return fig
     
-    @st.cache_data
     def timeseries_analysis(df):
         df['Date_Posted'] = pd.to_datetime(df['Date_Posted'])
 

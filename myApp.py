@@ -80,7 +80,6 @@ def display_toast():
 
 st.sidebar.button("About", on_click=display_toast())
 
-@st.cache_data
 def get_data(file_name):
     # collect data frame of reviews and their sentiment
     b2.set_bucket(os.environ['B2_BUCKETNAME'])

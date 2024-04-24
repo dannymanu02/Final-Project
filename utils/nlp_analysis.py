@@ -17,7 +17,6 @@ nltk.download('wordnet')
 
 class NLP_Analysis(object):
 
-    @st.cache_data
     def data_nlp_cleaning(df_titles):
         stop_words = set(stopwords.words('english'))
         punctuations = set(string.punctuation)
@@ -41,7 +40,6 @@ class NLP_Analysis(object):
 
         return df_titles
     
-    @st.cache_data
     def word_counts(df_titles):
         def chunk_generator(df, chunk_size=1000):
             try: 
