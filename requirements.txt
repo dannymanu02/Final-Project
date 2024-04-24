@@ -126,7 +126,7 @@ soupsieve
 stack-data
 streamlit
 tenacity
-tensorflow == 2.16.1
+tensorflow==2.16.1
 terminado
 threadpoolctl
 tinycss2
