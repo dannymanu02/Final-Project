@@ -30,3 +30,5 @@ I have used a 3 layered neural network out of which the first layer is an embedd
 
 ## Ethical Concerns:
 One ethical consideration is the potential bias in the data, as the news articles and headlines are sourced from online platforms and may reflect certain perspectives or biases. To mitigate this risk, I ensured transparency in our data collection and preprocessing methods, documenting any biases or limitations in the dataset. Additionally, I implemented measures to handle sensitive information responsibly and protect user privacy. It's important to interpret the results of sentiment analysis with caution, considering the limitations and potential biases in the data. Overall, I prioritize ethical considerations and strive to provide accurate and unbiased insights through our web application.
+
+Link to application: https://redditanalysis.streamlit.app
