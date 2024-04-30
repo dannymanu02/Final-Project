@@ -163,15 +163,15 @@ st.markdown("""The Original data is present in Title, and the cleaned data is pr
 
 st.markdown("<h4>Buzzwords in Data</h4>", unsafe_allow_html=True)
 st.write("Let's check the most used or frequently occurring words in the data. The most frequent words can be used to show social and political trends across the world.")
-print("Before the plots")
+os.write("Before the plots")
 word_frequencies = nlp.word_counts(df_analysis_clean)
 fig_wf = an.word_counts_plot(word_frequencies)
 
 st.plotly_chart(fig_wf)
-print("After the plots")
+os.write("After the plots")
 st.write("From the looks of it, Trump seems to be the most talked about person, he's never out of the news I guess!")
 
-print("before the model")
+os.write("before the model")
 tokenizer, maxlen = model.token_generator(df_analysis_clean)
 model_ltsm = model.load_model_ltsm()
 
@@ -185,7 +185,7 @@ if submit_button:
     sentiment = model.predictor(model_ltsm, text_input, maxlen, tokenizer)
     st.write(f'Sentiment: {sentiment}')
 
-print("After the model")
+os.write("After the model")
 st.markdown("""<h4>About the Model</h4>""", unsafe_allow_html=True)
 st.markdown("""I have used a Recurrent Neural Network called Long Term Short Memory(LTSM) Model which is generally used for NLP purposes. 
             The neural network has 3 layers with the first layer being an embedding layer, second one being the LTSM layer and the third one being the ouput layer. 
