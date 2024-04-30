@@ -172,8 +172,8 @@ st.write("After the plots")
 st.write("From the looks of it, Trump seems to be the most talked about person, he's never out of the news I guess!")
 
 st.write("before the model")
-tokenizer, maxlen = model.token_generator(df_analysis_clean)
-model_ltsm = model.load_model_ltsm()
+# tokenizer, maxlen = model.token_generator(df_analysis_clean)
+# model_ltsm = model.load_model_ltsm()
 
 st.markdown("<h4>Enter your headline to know the sentiment </h4>", unsafe_allow_html=True)
 
