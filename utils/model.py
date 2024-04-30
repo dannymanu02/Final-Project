@@ -6,11 +6,11 @@ import tensorflow as tf
 
 import tensorflow as tf
 
-try:
-    # Attempt to load your model here
-    model = tf.keras.models.load_model('my_model.h5')
-except Exception as e:
-    print(f"Failed to load model: {e}")
+# try:
+#     # Attempt to load your model here
+#     model = tf.keras.models.load_model('my_model.h5')
+# except Exception as e:
+#     print(f"Failed to load model: {e}")
 
 
 class model(object):
