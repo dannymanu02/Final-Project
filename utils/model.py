@@ -32,14 +32,12 @@ class model(object):
             print(e)
     def token_generator(df_titles):
         try:
-            st.write("before tokens")
             tokenizer = Tokenizer()
             df_titles['Cleaned_Title'] = df_titles['Cleaned_Title'].astype(str)
             df_titles['Cleaned_Title'] = df_titles['Cleaned_Title'].str.lower().replace('[^\w\s]', '', regex=True)
             tokenizer.fit_on_texts(df_titles['Cleaned_Title'])
             sequences = tokenizer.texts_to_sequences(df_titles['Cleaned_Title'])
             maxlen = max(len(seq) for seq in sequences)
-            st.write("after tokens")
             return tokenizer, maxlen
         except Exception as e:
             print(e)

@@ -18,14 +18,6 @@ load_dotenv()
 
 st.set_page_config(layout="wide")
 
-hide_streamlit_style = """
-<style>
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-</style>
-
-"""
-st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
 
 def page_style():
     gradient = """
@@ -73,6 +65,7 @@ st.sidebar.markdown('''
 ----------------------------------------------------------------------------------------------------------
 # Sections for reference
 - [About the Model](#about-the-model)
+- [Link to GitHub](https://github.com/dannymanu02/Final-Project)
 ''', unsafe_allow_html=True)
 
 def display_toast():
@@ -163,15 +156,13 @@ st.markdown("""The Original data is present in Title, and the cleaned data is pr
 
 st.markdown("<h4>Buzzwords in Data</h4>", unsafe_allow_html=True)
 st.write("Let's check the most used or frequently occurring words in the data. The most frequent words can be used to show social and political trends across the world.")
-st.write("Before the plots")
 # word_frequencies = nlp.word_counts(df_analysis_clean)
 # fig_wf = an.word_counts_plot(word_frequencies)
 
 # st.plotly_chart(fig_wf)
-st.write("After the plots")
+st.markdown("<b>There was supposed to be a plot for most frequently used words but it was breaking the app, so commenting out the code after informing professor.</b>", unsafe_allow_html=True)
 st.write("From the looks of it, Trump seems to be the most talked about person, he's never out of the news I guess!")
 
-st.write("before the model")
 tokenizer, maxlen = model.token_generator(df_analysis_clean)
 model_ltsm = model.load_model_ltsm()
 
@@ -185,9 +176,8 @@ if submit_button:
     sentiment = model.predictor(model_ltsm, text_input, maxlen, tokenizer)
     st.write(f'Sentiment: {sentiment}')
 
-st.write("After the model")
 st.markdown("""<h4>About the Model</h4>""", unsafe_allow_html=True)
-st.markdown("""I have used a Recurrent Neural Network called Long Term Short Memory(LTSM) Model which is generally used for NLP purposes. 
+st.markdown("""I have used a Recurrent Neural Network called Long Short Term Memory(LSTM) Model which is generally used for NLP purposes. 
             The neural network has 3 layers with the first layer being an embedding layer, second one being the LTSM layer and the third one being the ouput layer. 
             The output layer uses the softmax activation function instead of sigmoid activation function because of the data being multi classed.
             This model has an accuracy of 89.5%' and a categorical_crossentropy loss of 0.625.""")
