@@ -164,16 +164,16 @@ st.markdown("""The Original data is present in Title, and the cleaned data is pr
 st.markdown("<h4>Buzzwords in Data</h4>", unsafe_allow_html=True)
 st.write("Let's check the most used or frequently occurring words in the data. The most frequent words can be used to show social and political trends across the world.")
 st.write("Before the plots")
-word_frequencies = nlp.word_counts(df_analysis_clean)
-fig_wf = an.word_counts_plot(word_frequencies)
+# word_frequencies = nlp.word_counts(df_analysis_clean)
+# fig_wf = an.word_counts_plot(word_frequencies)
 
-st.plotly_chart(fig_wf)
+# st.plotly_chart(fig_wf)
 st.write("After the plots")
 st.write("From the looks of it, Trump seems to be the most talked about person, he's never out of the news I guess!")
 
 st.write("before the model")
-# tokenizer, maxlen = model.token_generator(df_analysis_clean)
-# model_ltsm = model.load_model_ltsm()
+tokenizer, maxlen = model.token_generator(df_analysis_clean)
+model_ltsm = model.load_model_ltsm()
 
 st.markdown("<h4>Enter your headline to know the sentiment </h4>", unsafe_allow_html=True)
 

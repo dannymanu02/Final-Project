@@ -43,10 +43,13 @@ class NLP_Analysis(object):
     def word_counts(df_titles):
         def chunk_generator(df, chunk_size=1000):
             try: 
+                st.write("Before chunks")
                 start = 0
                 while start < len(df):
                     yield df_titles['Cleaned_Title'].iloc[start:start+chunk_size].tolist()  # Convert to list
                     start += chunk_size
+                    st.write("Chunk: "+str(len(df)-start))
+                st.write("After while")
             except Exception as e:
                 print(e)
         try:
