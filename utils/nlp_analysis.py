@@ -48,8 +48,6 @@ class NLP_Analysis(object):
                 while start < len(df):
                     yield df_titles['Cleaned_Title'].iloc[start:start+chunk_size].tolist()  # Convert to list
                     start += chunk_size
-                    st.write("Chunk: "+str(len(df)-start))
-                st.write("After while")
             except Exception as e:
                 print(e)
         try:
@@ -73,6 +71,8 @@ class NLP_Analysis(object):
                     vectorizer.vocabulary_ = {feature: idx for idx, feature in enumerate(features)}
                     
                     X = scipy.sparse.vstack([X, X_chunk])
+                st.write("Chunk: "+str(len(chunk)))
+            st.write("After while")
 
             word_counts = pd.DataFrame(X.toarray(), columns=vectorizer.get_feature_names_out())
             word_frequencies = word_counts.sum().sort_values(ascending=False)

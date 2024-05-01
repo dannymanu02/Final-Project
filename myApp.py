@@ -3,7 +3,7 @@ import os
 from utils.b2 import B2
 from utils.analysis import Analysis as an
 from utils.nlp_analysis import NLP_Analysis as nlp
-# from utils.model import model
+from utils.model import model
 
 from dotenv import load_dotenv
 
